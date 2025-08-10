@@ -29,7 +29,7 @@ const NavBar = () => {
                 {name: "Register", to: "/register", isNewPage: true, animationDuration: 1000}
             );
         }
-        
+
         return items;
     };
 
@@ -112,7 +112,11 @@ const NavBar = () => {
 
     return (<>
         <nav className={cn("fixed top-0 left-0 w-full z-40 transition-all duration-300",
-            isScrolled ? "py-3 bg-background/40 shadow-xs" : "py-5")}
+            "py-2 bg-background/60 shadow-xs", // Mobile
+            isScrolled // Desktop
+                ? "md:py-3 md:bg-background/40 md:shadow-xs"
+                : "md:py-5 md:bg-transparent md:shadow-none"
+            )}
         style={{
             WebkitMaskImage: 'linear-gradient(to bottom, black 10%, black/90 20%, black/80 30%, black/70 40%, black/60 50%, black/50 60%, black/40 70%, black/30 80%, black/20 90%, black/10 100%)',
             maskImage: 'linear-gradient(to bottom, black 10%, black/90 20%, black/80 30%, black/70 40%, black/60 50%, black/50 60%, black/40 70%, black/30 80%, black/20 90%, black/10 100%)',

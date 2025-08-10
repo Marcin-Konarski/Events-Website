@@ -33,15 +33,20 @@ export const EventProvider = ({ children }) => {
     }
   };
 
-  const value = {
+  const removeEvent = (eventId) => {
+    setEvents(e => e.filter(event => event.id !== eventId))
+  }
+
+  const values = {
     events,
+    isLoading,
     setEvents,
     fetchEvents,
-    isLoading
+    removeEvent
   }
 
   return (
-    <EventContext.Provider value={ value }>
+    <EventContext.Provider value={ values }>
       {children}
     </EventContext.Provider>
   )

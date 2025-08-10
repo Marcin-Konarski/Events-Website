@@ -195,11 +195,12 @@ const EventForm = ({ isUpdating = false }) => {
             if (response.ok) {
                 navigate('/');
             } else {
-                alert(data.message || "An error occurred");
+                // alert(data.message || "An error occurred");
+                console.error("An error occurred", data.message)
             }
         } catch (error) {
             console.error("Error submitting event:", error);
-            alert("Failed to submit event. Please try again.");
+            // alert("Failed to submit event. Please try again.");
         }
     };
 

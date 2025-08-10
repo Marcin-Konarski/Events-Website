@@ -170,15 +170,15 @@ def update_participants(event_id):
 # Delete
 @app.route("/delete_event/<int:event_id>", methods=["DELETE"])
 def delete_event(event_id):
-    event = Event.query.get(event_id)
+   event = Event.query.get(event_id)
 
-    if not event:
-        return jsonify({"message": "Event not found"}), 404 # 404 status code here for - not found event
+   if not event:
+       return jsonify({"message": "Event not found"}), 404 # 404 status code here for - not found event
 
-    db.session.delete(event) # delete the event
-    db.session.commit()
+   db.session.delete(event) # delete the event
+   db.session.commit()
 
-    return jsonify({"message": "Event deleted"}), 200
+   return jsonify({"message": "Event deleted"}), 200
 
 
 if __name__ == "__main__":

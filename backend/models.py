@@ -92,8 +92,27 @@ class UploadForm(NoCsrfForm):
     submit = SubmitField("Upload")
 
 
-# ## Exmple:
-# event = Event.query.first()
-# user = event.created_by_user   # Go from Event to User
 
-# user.created_events            # Go from User to all their Events
+
+# # Example of changing passowrd via command line:
+
+
+# cd /home/marcin/events/backend
+# python3 -c "
+# from config import db, app
+# from models import User
+# from flask_bcrypt import Bcrypt
+
+# bcrypt = Bcrypt(app)
+
+# with app.app_context():
+#     user = User.query.filter_by(user_email='marcinkonarski001@gmail.com').first()
+#     if user:
+#         new_password = 'yournewpassword'  # Change this
+#         user.user_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+#         db.session.commit()
+#         print('Password updated successfully!')
+#     else:
+#         print('User not found')
+# "
+

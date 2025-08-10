@@ -135,15 +135,16 @@ const EventsListSection = () => {
       )}
     </div>
 
+
     {/* Dialog showing details */}
-      <dialog ref={dialogRef}
-        className="dialog items-center justify-center w-full max-w-md rounded-lg shadow-xl backdrop:bg-black/50 z-50"
-        onClick={handleDialogClick} onClose={handleCloseDialog}>
-        {currentEvent
-          ? (<EventDeailsScreen event={currentEvent} onClose={handleCloseDialog} isOwner={isOwner} />)
-          : (<div className='center-text'><p>Loading...</p></div>)
-        }
-      </dialog>
+    <dialog ref={dialogRef} className={cn("dialog items-center justify-center w-auto max-w-[80vw] md:max-w-3xl lg:max-w-5xl h-auto max-h-[80vh] md:h-[45vh] md:max-h-[45vh]",
+      "rounded-lg shadow-xl backdrop:bg-black/50 z-50 overflow-hidden")} onClick={handleDialogClick} onClose={handleCloseDialog} >
+      {currentEvent
+        ? (<EventDeailsScreen event={currentEvent} onClose={handleCloseDialog} isOwner={isOwner} />)
+        : (<div className='center-text'><p>Loading...</p></div>)
+      }
+    </dialog>
+
 
   </>)
 }

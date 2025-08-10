@@ -129,7 +129,8 @@ const EventForm = ({ isUpdating = false }) => {
             if (response.ok) {
                 navigate('/');
             } else {
-                alert(data.message || "An error occurred");
+                // alert(data.message || "An error occurred");
+                console.error("An error occurred", data.message)
             }
         } catch (error) {
             console.error("Error submitting event:", error);
@@ -188,7 +189,7 @@ const EventForm = ({ isUpdating = false }) => {
 
                 <div>
                     <label htmlFor="eventDate" className="font-bold text-lg text-gray-200 text-left w-full block ml-2">Event Date</label>
-                    <input type="text" ref={datePickerRef} placeholder="Select date and time"
+                    <input id="eventDate" type="text" ref={datePickerRef} placeholder="Select date and time"
                         className="input-field"/>
                     {error.eventDate && (
                         <p className="text-left text-red-500 text-sm mt-1">{error.eventDate}</p>
@@ -228,7 +229,7 @@ const EventForm = ({ isUpdating = false }) => {
                             <img src={imagePreview} alt="Preview" className="max-h-40 mx-auto"/>
                         </div>
                     )}
-                    
+
                     {/* Image upload button */}
                     <label className="input-field">
                         <span className="flex items-center space-x-2">
@@ -241,7 +242,7 @@ const EventForm = ({ isUpdating = false }) => {
                                 {imagePreview ? "Change image" : "Drop files or Browse"}
                             </span>
                         </span>
-                        <input type="file" accept="image/*" name="image" className="hidden" onChange={handleImageChange} />
+                        <input type="file" accept="image/*" name="image" id="image" className="hidden" onChange={handleImageChange} />
                     </label>
                     {error.image && (
                             <p className="text-left text-red-500 text-sm mt-1">{error.image}</p>

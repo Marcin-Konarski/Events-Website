@@ -5,8 +5,9 @@ from config import app, db, bcrypt, login_manager
 from functools import wraps
 from itsdangerous import URLSafeTimedSerializer
 from models import db, User
-import os
 from email_service import send_email_via_api
+import os
+import requests
 
 
 # Create a Blueprint for authentication routes
@@ -15,7 +16,6 @@ mail = Mail(app)
 
 
 API_BASE = "https://venuo.mk0x.com"
-
 
 
 # Decorator to check if the user is already authenticated and redirect to home page if so
@@ -57,28 +57,6 @@ def send_mail(to, subject, message_file, email):
     )
     email.send(email_message)
 
-# @auth.route("/confirm/<token>", methods=["GET"])
-# def confirm_email(token):
-#     email = confirm_token(token)
-#     if not email:
-#         flash("The confirmation link is invalid or has expired.", "danger")
-#         return redirect(f"{API_BASE}/register")
-#     user = User.query.filter_by(user_email=email).first()
-#     if user.is_confirmed:
-#         flash("Account already confirmed.", "success")
-#         return redirect(f"{API_BASE}/")
-#     if user.user_email == email:
-#         user.is_confirmed = True
-#         db.session.add(user)
-#         db.session.commit()
-#         flash("You have confirmed your account. Thanks!", "success")
-#     else:
-#         flash("The confirmation link is invalid or has expired.", "danger")
-
-#     login_user(user)
-#     session["user_id"] = user.id
-#     return redirect(f"{API_BASE}/")
-
 
 @auth.route("/confirm/<token>", methods=["GET"])
 def confirm_email(token):
@@ -106,60 +84,6 @@ def confirm_email(token):
     except Exception as e:
         print(f"Email confirmation error: {e}")
         return jsonify({"message": "Email confirmation failed"}), 500
-
-#@auth.route("/register", methods=["POST"])
-#def register():
-#    print("here\n\n")
-#    data = request.json
-#    name = data.get("userName")
-#    surname = data.get("userSurname")
-#    email = data.get("userEmail")
-#    password = data.get("userPassword")
-#
-#    user_exists = User.query.filter_by(user_email=email).first() is not None # This will return True if the user with that email exists
-#    if user_exists:
-#        return jsonify({"message": "User with this email alredy exists"}), 409
-#
-#    raw_hashed_password = bcrypt.generate_password_hash(password)
-#    str_hashed_password = raw_hashed_password.decode("utf-8")
-#    new_user = User(
-#        user_name = name,
-#        user_surname = surname,
-#        user_email = email,
-#        user_password = str_hashed_password,
-#        is_confirmed = False,
-#    )
-#
-#    db.session.add(new_user)
-#    db.session.commit()
-#
-#    token = generate_token(email)
-#    # confirm_url = url_for("auth.confirm_email", token=token, _external=True)
-#    confirm_url = f"http://venuo.mk0x.com/confirm/{token}"
-#    print(confirm_url)
-#    subject = "Please confirm your email"
-#    try:
-#        app.template_folder = os.path.abspath('templates')
-#        html = render_template("confirm_email.html", confirm_url=confirm_url) # Flask looks in templates directory automatically
-#
-#        send_mail(new_user.user_email, subject, html, mail)
-#        
-#        flash("A confirmation email has been sent via email.", "success")
-#    except Exception as e:
-#        print(f"Error sending confirmation email: {e}")
-#        flash("Registration successful, but we couldn't send a confirmation email. Please contact support.", "warning")
-#
-#    return jsonify({
-#        "id": new_user.id,
-#        "userName": new_user.user_name,
-#        "userSurname": new_user.user_surname,
-#        "userEmail": new_user.user_email,
-#        "message": "Registration successful. Please check your email to confirm your account."
-#    }), 201
-
-
-
-
 
 
 @auth.route("/register", methods=["POST"])
@@ -221,11 +145,6 @@ def register():
         }), 201
 
 
-
-
-
-
-
 @auth.route("/login", methods=["POST"])
 def login():
     if current_user.is_authenticated:
@@ -256,6 +175,7 @@ def login():
         "userSurname": user.user_surname,
         "userEmail": user.user_email,
     }), 200
+
 
 @auth.route("/logout", methods=["POST"])
 def logout():
@@ -290,6 +210,7 @@ def logout():
     print("Logout completed")  # Debug print
     return response
 
+
 @auth.route("/auth/check", methods=["GET"])
 def check_auth():
     return jsonify({"authenticated": current_user.is_authenticated}), 200
@@ -318,5 +239,4 @@ def get_current_user():
         "userSurname": user.user_surname,
         "userEmail": user.user_email,
     })
-
 
