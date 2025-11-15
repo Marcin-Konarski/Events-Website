@@ -6,10 +6,6 @@ A modern, full-stack event management website. Venuo allows users to create, dis
 ***This webpage was built as a project for my internship with the foundation "Głos Młodych" [https://fundacjaglosmlodych.org/](https://fundacjaglosmlodych.org/)***
 
 
-## 🌐Webpage available at following link:
-
-**[https://venuo.mk0x.com](https://venuo.mk0x.com)**
-
 ## 🌟 Features
 
 ### Core Functionality
